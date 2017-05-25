@@ -1,0 +1,35 @@
+{
+  "name": "location",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "iconPath": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "geopoint"
+    },
+    "longitude": {
+      "type": "geopoint"
+    },
+    "width": {
+      "type": "geopoint"
+    },
+    "height": {
+      "type": "geopoint"
+    },
+    "desc": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
