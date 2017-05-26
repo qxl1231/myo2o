@@ -13,16 +13,16 @@
       "type": "string"
     },
     "latitude": {
-      "type": "geopoint"
+      "type": "string"
     },
     "longitude": {
-      "type": "geopoint"
+      "type": "string"
     },
     "width": {
-      "type": "geopoint"
+      "type": "string"
     },
     "height": {
-      "type": "geopoint"
+      "type": "string"
     },
     "desc": {
       "type": "string"
