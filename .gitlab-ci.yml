@@ -25,7 +25,7 @@ deploy2staging:
     - ENV=deploy2staging
     - npm install
     - export PATH=$PATH:./node_modules/.bin/
-    - pm2 deploy ecosystem.config.js staging update --force
+    - pm2 start -n o2o ./server/server.js
   only:
   - master
 
