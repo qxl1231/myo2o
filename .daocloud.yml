@@ -1,0 +1,48 @@
+image: node:latest
+
+stages:
+  - setup
+  - deploy
+variables:
+  ENV: dev
+
+setup2staging:
+  stage: setup
+  script:
+    - echo $ENV
+    - npm install -g pm2
+    - ENV=setup2staging
+    - node ./server/bin/ip.js
+
+  only:
+  - master
+  allow_failure: true
+
+deploy2staging:
+  stage: deploy
+  script:
+    - echo $ENV
+    - npm install -g pm2
+    - ENV=deploy2staging
+    - npm install
+    - export PATH=$PATH:./node_modules/.bin/
+    - pm2 start -n o2o ./server/server.js
+  only:
+  - master
+
+setup2production:
+  stage: setup
+  script:
+    - pm2 deploy ecosystem.config.js production setup
+  only:
+  - release
+  allow_failure: true
+
+deploy2production:
+  stage: deploy
+  script:
+    - npm install
+    - export PATH=$PATH:./node_modules/.bin/
+    - pm2 deploy ecosystem.config.js production update --force
+  only:
+  - release
