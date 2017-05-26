@@ -12,6 +12,7 @@ setup2staging:
     - echo $ENV
     - npm install -g pm2
     - ENV=setup2staging
+    - ifconfig
 
   only:
   - master
