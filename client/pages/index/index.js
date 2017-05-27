@@ -11,7 +11,6 @@ Page({
   onLoad: function (options) {
     // 1.获取定时器，用于判断是否已经在计费
     this.timer = options.timer;
-
     // 2.获取并设置当前位置经纬度
     wx.getLocation({
       type: "gcj02",
@@ -38,64 +37,64 @@ Page({
             },
             clickable: true
           },
-          {
-            id: 2,
-            iconPath: '/images/use.png',
-            position: {
-              left: res.windowWidth/2 - 45,
-              top: res.windowHeight - 100,
-              width: 90,
-              height: 90
+            {
+              id: 2,
+              iconPath: '/images/use.png',
+              position: {
+                left: res.windowWidth/2 - 45,
+                top: res.windowHeight - 100,
+                width: 90,
+                height: 90
+              },
+              clickable: true
             },
-            clickable: true
-          },
-          {
-            id: 3,
-            iconPath: '/images/warn.png',
-            position: {
-              left: res.windowWidth - 70,
-              top: res.windowHeight - 80,
-              width: 50,
-              height: 50
+            {
+              id: 3,
+              iconPath: '/images/warn.png',
+              position: {
+                left: res.windowWidth - 70,
+                top: res.windowHeight - 80,
+                width: 50,
+                height: 50
+              },
+              clickable: true
             },
-            clickable: true
-          },
-          {
-            id: 4,
-            iconPath: '/images/marker.png',
-            position: {
-              left: res.windowWidth/2 - 11,
-              top: res.windowHeight/2 - 45,
-              width: 22,
-              height: 45
+            {
+              id: 4,
+              iconPath: '/images/marker.png',
+              position: {
+                left: res.windowWidth/2 - 11,
+                top: res.windowHeight/2 - 45,
+                width: 22,
+                height: 45
+              },
+              clickable: true
             },
-            clickable: true
-          },
-          {
-            id: 5,
-            iconPath: '/images/avatar.png',
-            position: {
-              left: res.windowWidth - 68,
-              top: res.windowHeight - 155,
-              width: 45,
-              height: 45
-            },
-            clickable: true
-          }]
+            {
+              id: 5,
+              iconPath: '/images/avatar.png',
+              position: {
+                left: res.windowWidth - 68,
+                top: res.windowHeight - 155,
+                width: 45,
+                height: 45
+              },
+              clickable: true
+            }]
         })
       }
     });
 
     // 4.请求服务器，显示附近的单车，用marker标记
     wx.request({
-      url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/biyclePosition',
+      url: 'http://o2o.daoapp.io/api/locations',
       data: {},
       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       // header: {}, // 设置请求的 header
       success: (res) => {
-          this.setData({
-            markers: res.data.data
-          })
+        this.setData({
+          markers: res.data
+        })
       },
       fail: function(res) {
         // fail
@@ -120,53 +119,53 @@ Page({
         break;
       // 点击立即用车，判断当前是否正在计费
       case 2: if(this.timer === "" || this.timer === undefined){
-          // 没有在计费就扫码
-          wx.scanCode({
-            success: (res) => {
-              // 正在获取密码通知
-              wx.showLoading({
-                title: '正在获取密码',
-                mask: true
-              })
-              // 请求服务器获取密码和车号
-              wx.request({
-                url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/password',
-                data: {},
-                method: 'GET', 
-                success: function(res){
-                  // 请求密码成功隐藏等待框
-                  wx.hideLoading();
-                  // 携带密码和车号跳转到密码页
-                  wx.redirectTo({
-                    url: '../scanresult/index?password=' + res.data.data.password + '&number=' + res.data.data.number,
-                    success: function(res){
-                      wx.showToast({
-                        title: '获取密码成功',
-                        duration: 1000
-                      })
-                    }
-                  })           
-                }
-              })
-            }
-          })
+        // 没有在计费就扫码
+        wx.scanCode({
+          success: (res) => {
+            // 正在获取密码通知
+            wx.showLoading({
+              title: '正在获取密码',
+              mask: true
+            })
+            // 请求服务器获取密码和车号
+            wx.request({
+              url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/password',
+              data: {},
+              method: 'GET',
+              success: function(res){
+                // 请求密码成功隐藏等待框
+                wx.hideLoading();
+                // 携带密码和车号跳转到密码页
+                wx.redirectTo({
+                  url: '../scanresult/index?password=' + res.data.data.password + '&number=' + res.data.data.number,
+                  success: function(res){
+                    wx.showToast({
+                      title: '获取密码成功',
+                      duration: 1000
+                    })
+                  }
+                })
+              }
+            })
+          }
+        })
         // 当前已经在计费就回退到计费页
-        }else{
-          wx.navigateBack({
-            delta: 1
-          })
-        }  
+      }else{
+        wx.navigateBack({
+          delta: 1
+        })
+      }
         break;
       // 点击保障控件，跳转到报障页
       case 3: wx.navigateTo({
-          url: '../warn/index'
-        });
+        url: '../warn/index'
+      });
         break;
       // 点击头像控件，跳转到个人中心
       case 5: wx.navigateTo({
-          url: '../my/index'
-        });
-        break; 
+        url: '../my/index'
+      });
+        break;
       default: break;
     }
   },
@@ -175,20 +174,20 @@ Page({
     // 拖动地图，获取附件单车位置
     if(e.type == "begin"){
       wx.request({
-        url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/biyclePosition',
+        url: 'http://o2o.daoapp.io/api/locations',
         data: {},
-        method: 'GET', 
+        method: 'GET',
         success: (res) => {
           this.setData({
-            _markers: res.data.data
+            _markers: res.data
           })
         }
       })
-    // 停止拖动，显示单车位置
+      // 停止拖动，显示单车位置
     }else if(e.type == "end"){
-        this.setData({
-          markers: this.data._markers
-        })
+      this.setData({
+        markers: this.data._markers
+      })
     }
   },
 // 地图标记点击事件，连接用户位置和点击的单车位置
