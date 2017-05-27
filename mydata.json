@@ -4,8 +4,7 @@
     "AccessToken": 1,
     "ACL": 1,
     "RoleMapping": 1,
-    "Role": 1,
-    "location": 15
+    "Role": 1
   },
   "models": {
     "User": {},
@@ -14,7 +13,6 @@
     "RoleMapping": {},
     "Role": {},
     "location": {
-      "1": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":1}"
     }
   }
 }
