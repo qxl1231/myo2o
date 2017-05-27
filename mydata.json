@@ -1,0 +1,27 @@
+{
+  "ids": {
+    "User": 1,
+    "AccessToken": 1,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "location": 9
+  },
+  "models": {
+    "User": {},
+    "AccessToken": {},
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
+    "location": {
+      "1": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":1}",
+      "2": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":2}",
+      "3": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":3}",
+      "4": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":4}",
+      "5": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":5}",
+      "6": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":6}",
+      "7": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":7}",
+      "8": "{\"title\":\"水蜜桃\",\"iconPath\":\"/images/markers.png\",\"latitude\":\"31.5091520675\",\"longitude\":\"120.3832785488\",\"width\":\"45\",\"height\":\"50\",\"id\":8}"
+    }
+  }
+}

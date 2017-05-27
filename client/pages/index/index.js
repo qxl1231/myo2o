@@ -28,7 +28,7 @@ Page({
         this.setData({
           controls: [{
             id: 1,
-            iconPath: '/images/location.png',
+            iconPath: '/images/location2.png',
             position: {
               left: 20,
               top: res.windowHeight - 80,
@@ -39,7 +39,7 @@ Page({
           },
             {
               id: 2,
-              iconPath: '/images/use.png',
+              iconPath: '/images/saoma2.png',
               position: {
                 left: res.windowWidth/2 - 45,
                 top: res.windowHeight - 100,
@@ -50,7 +50,7 @@ Page({
             },
             {
               id: 3,
-              iconPath: '/images/warn.png',
+              iconPath: '/images/money.png',
               position: {
                 left: res.windowWidth - 70,
                 top: res.windowHeight - 80,
@@ -72,7 +72,7 @@ Page({
             },
             {
               id: 5,
-              iconPath: '/images/avatar.png',
+              iconPath: '/images/card.png',
               position: {
                 left: res.windowWidth - 68,
                 top: res.windowHeight - 155,
@@ -127,7 +127,7 @@ Page({
               title: '正在获取密码',
               mask: true
             })
-            // 请求服务器获取密码和车号
+            // 请求服务器获取密码和车号下载.png
             wx.request({
               url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/password',
               data: {},
