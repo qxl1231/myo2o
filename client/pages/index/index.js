@@ -194,7 +194,7 @@ Page({
   bindmarkertap: function(e){
     let _markers = this.data.markers;
     let markerId = e.markerId;
-    let currMaker = _markers[markerId-1];
+    let currMaker = _markers[markerId];
     this.setData({
       polyline: [{
         points: [{

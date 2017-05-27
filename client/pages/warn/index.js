@@ -8,6 +8,9 @@ Page({
       num: 0,
       desc: ""
     },
+    scale: 18,
+    latitude: 0,
+    longitude: 0,
     // 故障类型数组
     checkboxValue: [],
     // 选取图片提示
@@ -63,6 +66,18 @@ Page({
     wx.setNavigationBarTitle({
       title: '报障维修'
     })
+
+    // 2.获取并设置当前位置经纬度
+    wx.getLocation({
+      type: "gcj02",
+      success: (res) => {
+        this.setData({
+          longitude: res.longitude,
+          latitude: res.latitude
+        })
+      }
+    });
+
   },
 // 勾选故障类型，获取类型值存入checkboxValue
   checkboxChange: function(e){
@@ -106,14 +121,14 @@ Page({
           // inputValue: this.data.inputValue,
           // checkboxValue: this.data.checkboxValue
 
-          "title": "play haha ",
-          "iconPath": "/images/taozi.png",
-          "latitude": 31.49120,
-          "longitude": 120.31158,
+          "title": "play nice 2 ",
+          "iconPath": "/images/markers.png",
+          "latitude": this.data.latitude,
+          "longitude": this.data.longitude,
           "width": 45,
           "height": 50
         },
-        method: 'get', // POST
+        method: 'POST', // POST
         // header: {}, // 设置请求的 header
         success: function(res){
           wx.showToast({
