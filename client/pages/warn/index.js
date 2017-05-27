@@ -121,7 +121,8 @@ Page({
           // inputValue: this.data.inputValue,
           // checkboxValue: this.data.checkboxValue
 
-          "title": "play nice 2 ",
+          "id":this.data.inputValue.num,
+          "title": this.data.inputValue.desc,
           "iconPath": "/images/markers.png",
           "latitude": this.data.latitude,
           "longitude": this.data.longitude,
