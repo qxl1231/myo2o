@@ -100,17 +100,24 @@ Page({
   formSubmit: function(e){
     if(this.data.picUrls.length > 0 && this.data.checkboxValue.length> 0){
       wx.request({
-        url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/msg',
+        url: 'http://o2o.daoapp.io/api/locations',
         data: {
           // picUrls: this.data.picUrls,
           // inputValue: this.data.inputValue,
           // checkboxValue: this.data.checkboxValue
+
+          "title": "play haha ",
+          "iconPath": "/images/taozi.png",
+          "latitude": 31.49120,
+          "longitude": 120.31158,
+          "width": 45,
+          "height": 50
         },
         method: 'get', // POST
         // header: {}, // 设置请求的 header
         success: function(res){
           wx.showToast({
-            title: res.data.data.msg,
+            title: 'nice',
             icon: 'success',
             duration: 2000
           })
