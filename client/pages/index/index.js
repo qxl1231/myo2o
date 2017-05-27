@@ -87,7 +87,7 @@ Page({
 
     // 4.请求服务器，显示附近的单车，用marker标记
     wx.request({
-      url: 'http://o2o.daoapp.io/api/locations',
+      url: 'https://o2o.daoapp.io/api/locations',
       data: {},
       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       // header: {}, // 设置请求的 header
@@ -174,7 +174,7 @@ Page({
     // 拖动地图，获取附件单车位置
     if(e.type == "begin"){
       wx.request({
-        url: 'http://o2o.daoapp.io/api/locations',
+        url: 'https://o2o.daoapp.io/api/locations',
         data: {},
         method: 'GET',
         success: (res) => {

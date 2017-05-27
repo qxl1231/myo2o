@@ -115,7 +115,7 @@ Page({
   formSubmit: function(e){
     if(this.data.picUrls.length > 0 && this.data.checkboxValue.length> 0){
       wx.request({
-        url: 'http://o2o.daoapp.io/api/locations',
+        url: 'https://o2o.daoapp.io/api/locations',
         data: {
           // picUrls: this.data.picUrls,
           // inputValue: this.data.inputValue,
