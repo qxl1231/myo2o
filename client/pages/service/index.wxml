@@ -1,4 +1,4 @@
-<!--pages/warn/index.wxml-->
+<!--pages/service/index.wxml-->
 <view class="container">
     <view class="choose">
         <view class="title">请选择图标类型</view>
@@ -19,7 +19,7 @@
             <text class="add" bindtap="bindCamera">{{actionText}}</text>
         </view>
         <view class="action-input">
-            <input bindinput="numberChange" name="number" placeholder="联系手机" />
+            <input bindinput="numberChange" name="number" placeholder=" 微信ID/手机号" />
             <input bindinput="descChange" name="desc" placeholder="地图上显示信息" />
         </view>
         <view class="action-submit">

@@ -29,6 +29,18 @@
     },
     "desc": {
       "type": "string"
+    },
+    "accessToken": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "wechatPayImg": {
+      "type": "string"
     }
   },
   "validations": [],

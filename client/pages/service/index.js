@@ -9,8 +9,6 @@ Page({
       desc: ""
     },
     scale: 18,
-    accessToken:"",
-    userId:0,
     latitude: 0,
     longitude: 0,
     // 故障类型数组
@@ -66,7 +64,7 @@ Page({
 // 页面加载
   onLoad:function(options){
     wx.setNavigationBarTitle({
-      title: '添加服务'
+      title: '服务详情'
     })
 
     // 2.获取并设置当前位置经纬度
@@ -116,17 +114,6 @@ Page({
 // 提交到服务器
   formSubmit: function(e){
     if(this.data.picUrls.length > 0 && this.data.checkboxValue.length> 0){
-
-      wx.getStorage({
-        key: 'userInfo',
-        success: (res) => {
-          this.setData({
-            accessToken: res.data.userInfo.accessToken,
-            userId: res.data.userInfo.userId
-          })
-        }
-      })
-
       wx.request({
         url: 'https://o2o.daoapp.io/api/locations',
         data: {
@@ -134,21 +121,19 @@ Page({
           // inputValue: this.data.inputValue,
           // checkboxValue: this.data.checkboxValue
 
-          "phone":this.data.inputValue.num,
+          "id":this.data.inputValue.num,
           "title": this.data.inputValue.desc,
           "iconPath": "/images/markers.png",
           "latitude": this.data.latitude,
           "longitude": this.data.longitude,
           "width": 45,
-          "height": 50,
-          "accessToken":this.data.accessToken,
-          "userId":this.data.userId
+          "height": 50
         },
         method: 'POST', // POST
         // header: {}, // 设置请求的 header
         success: function(res){
           wx.showToast({
-            title: '添加成功',
+            title: 'nice',
             icon: 'success',
             duration: 2000
           })

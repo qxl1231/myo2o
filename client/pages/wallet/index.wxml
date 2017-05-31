@@ -21,7 +21,7 @@
         <text><text class="c-y">99元，押金退款</text>></text>
     </view>
     <view bindtap="showInvcode" class="my-invcode tapbar">
-        <text>关于ofo</text>
+        <text>关于我</text>
         <text>></text>
     </view>
 </view>

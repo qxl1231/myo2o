@@ -1,17 +1,21 @@
 // pages/my/index.js
+var util = require('../../utils/util.js')
 Page({
-  data:{
+  data: {
     // 用户信息
     userInfo: {
       avatarUrl: "",
-      nickName: "未登录"
+      nickName: "未登录",
+      city: "",
+      province: "",
+      country: ""
     },
     bType: "primary", // 按钮类型
     actionText: "登录", // 按钮文字提示
     lock: false //登录按钮状态，false表示未登录
   },
 // 页面加载
-  onLoad:function(){
+  onLoad: function () {
     // 设置本页导航标题
     wx.setNavigationBarTitle({
       title: '个人中心'
@@ -25,7 +29,10 @@ Page({
         this.setData({
           userInfo: {
             avatarUrl: res.data.userInfo.avatarUrl,
-            nickName: res.data.userInfo.nickName
+            nickName: res.data.userInfo.nickName,
+            city: res.data.userInfo.city,
+            province: res.data.userInfo.province,
+            country: res.data.userInfo.country
           },
           bType: res.data.bType,
           actionText: res.data.actionText,
@@ -35,10 +42,10 @@ Page({
     });
   },
 // 登录或退出登录按钮点击事件
-  bindAction: function(){
+  bindAction: function () {
     this.data.lock = !this.data.lock
     // 如果没有登录，登录按钮操作
-    if(this.data.lock){
+    if (this.data.lock) {
       wx.showLoading({
         title: "正在登录"
       });
@@ -51,7 +58,10 @@ Page({
               this.setData({
                 userInfo: {
                   avatarUrl: res.userInfo.avatarUrl,
-                  nickName: res.userInfo.nickName
+                  nickName: res.userInfo.nickName,
+                  city: res.userInfo.city,
+                  province: res.userInfo.province,
+                  country: res.userInfo.country
                 },
                 bType: "warn",
                 actionText: "退出登录"
@@ -62,26 +72,91 @@ Page({
                 data: {
                   userInfo: {
                     avatarUrl: res.userInfo.avatarUrl,
-                    nickName: res.userInfo.nickName
+                    nickName: res.userInfo.nickName,
+                    city: res.userInfo.city,
+                    province: res.userInfo.province,
+                    country: res.userInfo.country
                   },
                   bType: "warn",
                   actionText: "退出登录"
                 },
-                success: function(res){
+                success: function (res) {
                   console.log("存储成功")
                 }
               })
-            }     
+
+              //todo:把用户信息注册到服务器
+              var timstamp = Date.parse(new Date());
+              if (res.userInfo.nickName) {
+                //1.先去登录咯
+                wx.request({
+                  url: 'https://o2o.daoapp.io/api/Users/login',
+                  data: {
+                    "username": res.userInfo.nickName,
+                    "password": "midea_kjd"
+                  },
+                  method: 'POST', // POST
+                  // header: {}, // 设置请求的 header
+                  success: function (res) {
+                    // console.log(res.data.userId);
+                    // console.log(res.data.id);
+                    wx.setStorage({
+                      key: 'userInfo',
+                      data: {
+                        userInfo: {
+                          accessToken: res.data.id,
+                          userId: res.data.userId
+                        }
+
+                      },
+                      success: function (res) {
+                        console.log("存储token成功")
+                      }
+                    })
+
+
+                    if (res.data.userId) {
+                    } else {    //2.没能登录成功,就去插入数据
+                      wx.request({
+                        url: 'https://o2o.daoapp.io/api/Users',
+                        data: {
+                          "username": res.userInfo.nickName,
+                          "email": timstamp + '@qq.com',
+                          "password": "midea_kjd"
+                        },
+                        method: 'POST', // POST
+                        // header: {}, // 设置请求的 header
+                        success: function (res) {
+                          console.log(res.id);
+                          // wx.showToast({
+                          //   title: 'nice',
+                          //   icon: 'success',
+                          //   duration: 2000
+                          // })
+                        }
+                      })
+                    }
+
+
+
+                  }
+                })
+
+
+              }
+
+
+            }
           })
         }
       })
-    // 如果已经登录，退出登录按钮操作     
-    }else{
+      // 如果已经登录，退出登录按钮操作
+    } else {
       wx.showModal({
         title: "确认退出?",
-        content: "退出后将不能使用ofo",
+        content: "退出后将不能使用o2o",
         success: (res) => {
-          if(res.confirm){
+          if (res.confirm) {
             console.log("确定")
             // 退出登录则移除本地用户信息
             wx.removeStorageSync('userInfo')
@@ -93,7 +168,7 @@ Page({
               bType: "primary",
               actionText: "登录"
             })
-          }else {
+          } else {
             console.log("cancel")
             this.setData({
               lock: true
@@ -101,10 +176,10 @@ Page({
           }
         }
       })
-    }   
+    }
   },
 // 跳转至钱包
-  movetoWallet: function(){
+  movetoWallet: function () {
     wx.navigateTo({
       url: '../wallet/index'
     })

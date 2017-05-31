@@ -161,17 +161,19 @@ Page({
         url: '../warn/index'
       });
         break;
+
       // 点击头像控件，跳转到个人中心
       case 5: wx.navigateTo({
         url: '../my/index'
       });
         break;
       default: break;
+
     }
   },
 // 地图视野改变事件
   bindregionchange: function(e){
-    // 拖动地图，获取附件单车位置
+    // 拖动地图，获取附件服务位置
     if(e.type == "begin"){
       wx.request({
         url: 'https://o2o.daoapp.io/api/locations',
@@ -183,7 +185,7 @@ Page({
           })
         }
       })
-      // 停止拖动，显示单车位置
+      // 停止拖动，显示服务位置
     }else if(e.type == "end"){
       this.setData({
         markers: this.data._markers

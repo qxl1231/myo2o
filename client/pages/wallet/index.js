@@ -1,7 +1,7 @@
 // pages/wallet/index.js
 Page({
   data:{
-    overage: 0,
+    overage: 66666,
     ticket: 0
   },
 // 页面加载
@@ -80,8 +80,8 @@ Page({
 // 关于ofo
   showInvcode: function(){
     wx.showModal({
-      title: "ofo共享单车",
-      content: "微信服务号：ofobike,网址：m.ofo.so",
+      title: "o2o共享服务",
+      content: "微信服务号：附近有钱,大家一起玩",
       showCancel: false,
       confirmText: "玩的6"
     })
