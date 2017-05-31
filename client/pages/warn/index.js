@@ -1,6 +1,6 @@
 // pages/wallet/index.js
 Page({
-  data:{
+  data: {
     // 故障车周围环境图路径数组
     picUrls: [],
     // 故障车编号和备注
@@ -9,8 +9,8 @@ Page({
       desc: ""
     },
     scale: 18,
-    accessToken:"",
-    userId:0,
+    accessToken: "",
+    userId: 0,
     latitude: 0,
     longitude: 0,
     // 故障类型数组
@@ -64,7 +64,7 @@ Page({
     ]
   },
 // 页面加载
-  onLoad:function(options){
+  onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '添加服务'
     })
@@ -80,23 +80,33 @@ Page({
       }
     });
 
+    wx.getStorage({
+      key: 'userInfo',
+      success: (res) => {
+        this.setData({
+          accessToken: res.data.userInfo.accessToken,
+          userId: res.data.userInfo.userId
+        })
+      }
+    })
+
   },
 // 勾选故障类型，获取类型值存入checkboxValue
-  checkboxChange: function(e){
+  checkboxChange: function (e) {
     let _values = e.detail.value;
-    if(_values.length == 0){
+    if (_values.length == 0) {
       this.setData({
         btnBgc: ""
       })
-    }else{
+    } else {
       this.setData({
         checkboxValue: _values,
         btnBgc: "#b9dd08"
       })
-    }   
+    }
   },
-// 输入单车编号，存入inputValue
-  numberChange: function(e){
+// 输入手机号，存入inputValue
+  numberChange: function (e) {
     this.setData({
       inputValue: {
         num: e.detail.value,
@@ -105,7 +115,7 @@ Page({
     })
   },
 // 输入备注，存入inputValue
-  descChange: function(e){
+  descChange: function (e) {
     this.setData({
       inputValue: {
         num: this.data.inputValue.num,
@@ -114,56 +124,63 @@ Page({
     })
   },
 // 提交到服务器
-  formSubmit: function(e){
-    if(this.data.picUrls.length > 0 && this.data.checkboxValue.length> 0){
+  formSubmit: function (e) {
+    if (this.data.inputValue.desc && this.data.checkboxValue.length > 0) {
 
-      wx.getStorage({
-        key: 'userInfo',
-        success: (res) => {
-          this.setData({
-            accessToken: res.data.userInfo.accessToken,
-            userId: res.data.userInfo.userId
-          })
-        }
-      })
+      if (this.data.userId && this.data.accessToken) {
+        wx.request({
+          url: 'https://o2o.daoapp.io/api/locations',
+          data: {
+            "phone": this.data.inputValue.num,
+            "title": this.data.inputValue.desc,
+            "iconPath": "/images/markers.png",
+            "latitude": this.data.latitude,
+            "longitude": this.data.longitude,
+            "width": 45,
+            "height": 50,
+            "accessToken": this.data.accessToken,
+            "userId": this.data.userId
+          },
+          method: 'POST', // POST
+          // header: {}, // 设置请求的 header
+          success: function (res) {
+            wx.showToast({
+              title: '添加成功',
+              icon: 'success',
+              duration: 2000
+            })
+          }
+        })
+      } else {
+        wx.showModal({
+          title: "先点钱包,微信登录哦",
+          content: '时间就是金钱，赶快登录啊',
+          confirmText: "我我我填",
+          cancelText: "劳资不填",
+          success: (res) => {
+            if (res.confirm) {
+              // 继续填
+            } else {
+              console.log("back")
+              wx.navigateBack({
+                delta: 1 // 回退前 delta(默认为1) 页面
+              })
+            }
+          }
+        })
+      }
 
-      wx.request({
-        url: 'https://o2o.daoapp.io/api/locations',
-        data: {
-          // picUrls: this.data.picUrls,
-          // inputValue: this.data.inputValue,
-          // checkboxValue: this.data.checkboxValue
 
-          "phone":this.data.inputValue.num,
-          "title": this.data.inputValue.desc,
-          "iconPath": "/images/markers.png",
-          "latitude": this.data.latitude,
-          "longitude": this.data.longitude,
-          "width": 45,
-          "height": 50,
-          "accessToken":this.data.accessToken,
-          "userId":this.data.userId
-        },
-        method: 'POST', // POST
-        // header: {}, // 设置请求的 header
-        success: function(res){
-          wx.showToast({
-            title: '添加成功',
-            icon: 'success',
-            duration: 2000
-          })
-        }
-      })
-    }else{
+    } else {
       wx.showModal({
         title: "请填写信息",
         content: '看什么看，赶快填信息，削你啊',
         confirmText: "我我我填",
         cancelText: "劳资不填",
         success: (res) => {
-          if(res.confirm){
+          if (res.confirm) {
             // 继续填
-          }else{
+          } else {
             console.log("back")
             wx.navigateBack({
               delta: 1 // 回退前 delta(默认为1) 页面
@@ -171,19 +188,21 @@ Page({
           }
         }
       })
+
+
     }
-    
+
   },
 // 选择故障车周围环境图 拍照或选择相册
-  bindCamera: function(){
+  bindCamera: function () {
     wx.chooseImage({
-      count: 4, 
+      count: 4,
       sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'], 
+      sourceType: ['album', 'camera'],
       success: (res) => {
         let tfps = res.tempFilePaths;
         let _picUrls = this.data.picUrls;
-        for(let item of tfps){
+        for (let item of tfps) {
           _picUrls.push(item);
           this.setData({
             picUrls: _picUrls,
@@ -194,10 +213,10 @@ Page({
     })
   },
 // 删除选择的故障车周围环境图
-  delPic: function(e){
+  delPic: function (e) {
     let index = e.target.dataset.index;
     let _picUrls = this.data.picUrls;
-    _picUrls.splice(index,1);
+    _picUrls.splice(index, 1);
     this.setData({
       picUrls: _picUrls
     })
