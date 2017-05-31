@@ -127,7 +127,7 @@ Page({
   formSubmit: function (e) {
     if (this.data.inputValue.desc && this.data.checkboxValue.length > 0) {
 
-      if (this.data.userId && this.data.accessToken) {
+      if (this.data.userId) {
         wx.request({
           url: 'https://o2o.daoapp.io/api/locations',
           data: {

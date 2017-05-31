@@ -49,6 +49,7 @@ Page({
       wx.showLoading({
         title: "正在登录"
       });
+      var that=this;
       wx.login({
         success: (res) => {
           wx.hideLoading();
@@ -67,23 +68,23 @@ Page({
                 actionText: "退出登录"
               });
               // 存储用户信息到本地
-              wx.setStorage({
-                key: 'userInfo',
-                data: {
-                  userInfo: {
-                    avatarUrl: res.userInfo.avatarUrl,
-                    nickName: res.userInfo.nickName,
-                    city: res.userInfo.city,
-                    province: res.userInfo.province,
-                    country: res.userInfo.country
-                  },
-                  bType: "warn",
-                  actionText: "退出登录"
-                },
-                success: function (res) {
-                  console.log("存储成功")
-                }
-              })
+              // wx.setStorage({
+              //   key: 'userInfo',
+              //   data: {
+              //     userInfo: {
+              //       avatarUrl: res.userInfo.avatarUrl,
+              //       nickName: res.userInfo.nickName,
+              //       city: res.userInfo.city,
+              //       province: res.userInfo.province,
+              //       country: res.userInfo.country
+              //     },
+              //     bType: "warn",
+              //     actionText: "退出登录"
+              //   },
+              //   success: function (res) {
+              //     console.log("存储成功")
+              //   }
+              // })
 
               //todo:把用户信息注册到服务器
               var timstamp = Date.parse(new Date());
@@ -97,25 +98,33 @@ Page({
                   },
                   method: 'POST', // POST
                   // header: {}, // 设置请求的 header
-                  success: function (res) {
+                  success: function (loginRes) {
                     // console.log(res.data.userId);
                     // console.log(res.data.id);
-                    wx.setStorage({
-                      key: 'userInfo',
-                      data: {
-                        userInfo: {
-                          accessToken: res.data.id,
-                          userId: res.data.userId
+                  
+                    if (loginRes.data.userId) {
+                      wx.setStorage({
+                        key: 'userInfo',
+                        
+                        data: {
+                          userInfo: {
+                            accessToken: loginRes.data.id,
+                            userId: loginRes.data.userId,
+                          
+                            avatarUrl: that.data.userInfo.avatarUrl,
+                            nickName: that.data.userInfo.nickName,
+                            city: that.data.userInfo.city,
+                            province: that.data.userInfo.province,
+                            country: that.data.userInfo.country
+                          },
+                          bType: "warn",
+                          actionText: "退出登录"
+
+                        },
+                        success: function (res) {
+                          console.log("存储token成功")
                         }
-
-                      },
-                      success: function (res) {
-                        console.log("存储token成功")
-                      }
-                    })
-
-
-                    if (res.data.userId) {
+                      })
                     } else {    //2.没能登录成功,就去插入数据
                       wx.request({
                         url: 'https://o2o.daoapp.io/api/Users',
@@ -126,8 +135,34 @@ Page({
                         },
                         method: 'POST', // POST
                         // header: {}, // 设置请求的 header
-                        success: function (res) {
-                          console.log(res.id);
+                        success: function (createRes) {
+                          console.log(createRes.data.id);
+                          wx.setStorage({
+                            // key: 'userInfo',
+                            // data: {
+                            //   userInfo: {
+                          
+                            //     userId: createRes.data.id
+                            //   }
+
+                               key: 'userInfo',
+                              data: {
+                                userInfo: {
+                                  userId: createRes.data.id,
+                                  avatarUrl: that.data.userInfo.avatarUrl,
+                                  nickName: that.data.userInfo.nickName,
+                                  city: that.data.userInfo.city,
+                                  province: that.data.userInfo.province,
+                                  country: that.data.userInfo.country
+                                },
+                                bType: "warn",
+                                actionText: "退出登录"
+                             
+                            },
+                            success: function (res) {
+                              console.log("存储token成功")
+                            }
+                          })
                           // wx.showToast({
                           //   title: 'nice',
                           //   icon: 'success',
