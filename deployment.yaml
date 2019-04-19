@@ -1,0 +1,82 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    field.cattle.io/creatorId: user-xtltp
+    field.cattle.io/publicEndpoints: '[{"addresses":["192.168.200.26"],"port":30883,"protocol":"TCP","serviceName":"default:o2o-test-nodeport","allNodes":true}]'
+  creationTimestamp: "2019-04-19T05:30:21Z"
+  generation: 2
+  labels:
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-default-o2o-test
+  name: o2o-test
+  namespace: default
+  resourceVersion: "15960"
+  selfLink: /apis/apps/v1beta2/namespaces/default/deployments/o2o-test
+  uid: 39b355ad-6264-11e9-9181-000c29ddeb1b
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-o2o-test
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: "2019-04-19T05:30:21Z"
+        field.cattle.io/ports: '[[{"containerPort":3000,"dnsName":"o2o-test-nodeport","kind":"NodePort","name":"3000tcp01","protocol":"TCP","sourcePort":0}]]'
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-o2o-test
+    spec:
+      containers:
+      - image: daocloud.io/qxl1231/o2o:master-39e4da9
+        imagePullPolicy: Always
+        name: o2o-test
+        ports:
+        - containerPort: 3000
+          name: 3000tcp01
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          procMount: Default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-04-19T05:31:23Z"
+    lastUpdateTime: "2019-04-19T05:31:23Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-04-19T05:30:21Z"
+    lastUpdateTime: "2019-04-19T05:31:23Z"
+    message: ReplicaSet "o2o-test-bcf4f4c5" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
