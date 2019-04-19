@@ -22,6 +22,10 @@ stages:
       tag: appTest
       pushRemote: true
       registry: 127.0.0.1:34883
+    when:
+      event:
+        include:
+        - push
   when:
     branch:
       include:
@@ -33,5 +37,9 @@ stages:
   steps:
   - applyYamlConfig:
       path: ./deployment.yaml
+    when:
+      event:
+        include:
+        - push
 timeout: 60
 notification: {}
