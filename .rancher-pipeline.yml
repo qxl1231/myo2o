@@ -40,6 +40,6 @@ stages:
     when:
       event:
         include:
-        - push
+        - pull_request
 timeout: 60
 notification: {}
