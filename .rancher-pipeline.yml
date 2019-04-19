@@ -1,0 +1,37 @@
+stages:
+- name: build
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: |-
+        npm install -g cnpm
+        cnpm i
+        npm run build:js && node .
+  when:
+    branch:
+      include:
+      - master
+    event:
+      include:
+      - push
+- name: publish
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: appTest
+      pushRemote: true
+      registry: 127.0.0.1:34883
+  when:
+    branch:
+      include:
+      - master
+    event:
+      include:
+      - push
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
+timeout: 60
+notification: {}
